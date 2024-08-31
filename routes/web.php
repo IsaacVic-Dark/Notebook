@@ -22,11 +22,21 @@ Route::get('/dashboard', [NoteController::class, 'show'])
 
 Route::delete('/notes/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
 
-Route::get('/note/{note}', [NoteController::class, 'display'])->name('note.display');
+Route::get('/note/{id}', [NoteController::class, 'display'])->name('notes.display');
+
+Route::get('/notes/{note}',[NoteController::class, 'update'])->name('notes.update');
+
+// Route::get('/edit', function (){
+//     return view('note.edit');
+// })->name('note.edit');
+
+Route::get('/note/{id}/edit', [NoteController::class, 'edit'])->name('note.edit');
 
 Route::get('/create',[HomeController::class, 'create'])->name('create');
 
 Route::post('/notes', [NoteController::class, 'store'])->name('notes.store');
+
+Route::put('/notes/{id}', [NoteController::class, 'update'])->name('notes.update');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

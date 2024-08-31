@@ -21,8 +21,8 @@
             <div>
                 <b>{{ $note->created_at }}</b>
                 <p>{{ $note->notes }}</p>
-                <a href="{{ route('note.display', $note->id) }}">View</a>
-                <x-primary-button>{{ __('Edit') }}</x-primary-button>
+                <a href="{{ route('notes.display', $note->id) }}">View</a>
+                <a href="{{ route('note.edit', $note->id)}}">Edit</a>
                 <form action="{{ route('notes.destroy', $note->id) }}" method="POST">
                     @csrf
                     @method('DELETE')

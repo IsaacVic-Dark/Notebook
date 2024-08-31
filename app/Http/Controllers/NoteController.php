@@ -10,9 +10,10 @@ class NoteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function display(Note $note)
+    public function display($id)
     {
         //
+        $note = Note::findOrFail($id);
         return view('note.display', compact('note'));
     }
 
@@ -56,17 +57,31 @@ class NoteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Note $note)
+    public function edit($id)
     {
         //
+        $note = Note::findOrFail($id);
+        return view('note.edit', compact('note'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Note $note)
+    public function update(Request $request, $id)
     {
         //
+        $validated = $request->validate([
+            'note' => 'required|string'
+        ]);
+
+        $note = Note::findOrFail($id);
+
+        $note->notes = $validated['note'];
+
+        $note->save();
+
+        // return view('note.display', compact('note'));
+        return redirect()->route('notes.display', $note->id);
     }
 
     /**
@@ -81,6 +96,7 @@ class NoteController extends Controller
     {
         //
         $note->delete();
-        return redirect()->back()->with('message', 'Note deleted successfully');
+        $notes = Note::all();
+        return view('dashboard',compact('notes'));
     }
 }
