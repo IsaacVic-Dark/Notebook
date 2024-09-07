@@ -29,8 +29,14 @@
 
             <!-- Page Content -->
             <main>
+                @if (session('message'))
+                    <div class="success-message">
+                        {{ session('message') }}
+                    </div>
+                @endif
                 {{ $slot }}
             </main>
+
         </div>
     </body>
 </html>

@@ -97,6 +97,6 @@ class NoteController extends Controller
         //
         $note->delete();
         $notes = Note::all();
-        return view('dashboard',compact('notes'));
+        return redirect()->route('dashboard',compact('notes'))->with('message', 'Note deleted successfully');
     }
 }
