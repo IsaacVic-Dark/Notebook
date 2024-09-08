@@ -30,9 +30,15 @@
             <!-- Page Content -->
             <main>
                 @if (session('message'))
-                    <div class="success-message">
-                        {{ session('message') }}
-                    </div>
+                <div style="            font-size: 16px;
+            background-color: green;
+            padding: 10px;
+            color: white;
+            border-radius: 10px;">
+    {{ session('message') }}
+</div>
+
+
                 @endif
                 {{ $slot }}
             </main>

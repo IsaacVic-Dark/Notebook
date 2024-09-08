@@ -50,7 +50,7 @@ class NoteController extends Controller
     public function show()
     {
         //
-        $notes = Note::all();
+        $notes = Note::paginate(10);
         return view('dashboard',compact('notes'));
     }
 
@@ -81,7 +81,7 @@ class NoteController extends Controller
         $note->save();
 
         // return view('note.display', compact('note'));
-        return redirect()->route('notes.display', $note->id);
+        return redirect()->route('notes.display', $note->id)->with('message','Note updated successfully');
     }
 
     /**

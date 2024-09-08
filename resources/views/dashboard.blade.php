@@ -34,5 +34,6 @@
             </div>
         @endforeach
     </div>
+    {{ $notes->links() }}
 
 </x-app-layout>
