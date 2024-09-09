@@ -30,15 +30,22 @@
             <!-- Page Content -->
             <main>
                 @if (session('message'))
-                <div style="            font-size: 16px;
-            background-color: green;
-            padding: 10px;
-            color: white;
-            border-radius: 10px;">
-    {{ session('message') }}
-</div>
-
-
+                    <div id="message" style="
+                        font-size: 16px;
+                        background-color: green;
+                        padding: 10px;
+                        color: white;
+                        border-radius: 10px;">
+                        {{ session('message') }}
+                    </div>
+                    <script>
+                        setTimeout(function() {
+                            var messageDiv = document.getElementById('message');
+                            if (messageDiv) {
+                                messageDiv.style.display = 'none';
+                            }
+                        }, 3000);
+                    </script>
                 @endif
                 {{ $slot }}
             </main>

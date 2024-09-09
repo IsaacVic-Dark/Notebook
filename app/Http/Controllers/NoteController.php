@@ -40,8 +40,9 @@ class NoteController extends Controller
         $note->notes = $validated['note'];
         $note->save();
         // return redirect()->route('create');
-        $notes = Note::all();
-        return view('dashboard',compact('notes'));
+        // $notes = Note::paginate(10);
+        // return view('dashboard',compact('notes'));
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -80,23 +81,16 @@ class NoteController extends Controller
 
         $note->save();
 
-        // return view('note.display', compact('note'));
         return redirect()->route('notes.display', $note->id)->with('message','Note updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    // public function destroy(Note $note)
-    // {
-    //     //
-    // }
-
     public function destroy(Note $note)
     {
         //
         $note->delete();
-        $notes = Note::all();
-        return redirect()->route('dashboard',compact('notes'))->with('message', 'Note deleted successfully');
+        return redirect()->route('dashboard')->with('message', 'Note deleted successfully');
     }
 }
