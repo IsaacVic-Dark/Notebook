@@ -11,11 +11,11 @@ class NoteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function display($id)
+    public function display()
     {
-        //
-        $note = Note::findOrFail($id);
-        return view('note.display', compact('note'));
+        $notes = Note::where('user_id', Auth::id())->paginate(10);
+        return view('note.display', compact('notes'));
+
     }
 
     /**
@@ -38,22 +38,21 @@ class NoteController extends Controller
 
         $note = new Note();
         $note->notes = $validated['note'];
-        $note->user_id = Auth::id(); // Assign the note to the logged-in user
+        $note->user_id = Auth::id();
         $note->save();
 
-        return redirect()->route('dashboard');
+        return redirect()->route('note.show', $note->id)->with('message', 'Note created successfully!!');
     }
 
 
     /**
      * Display the specified resource.
      */
-    public function show()
+    public function show($id)
     {
-        // Get the logged-in user's notes
-        $notes = Note::where('user_id', Auth::id())->paginate(10);
-
-        return view('dashboard', compact('notes'));
+        //
+        $note = Note::findOrFail($id);
+        return view('note.show', compact('note'));
     }
 
 
@@ -83,7 +82,7 @@ class NoteController extends Controller
 
         $note->save();
 
-        return redirect()->route('notes.display', $note->id)->with('message', 'Note updated successfully');
+        return redirect()->route('note.show', $note->id)->with('message', 'Note updated successfully');
     }
 
     /**
@@ -93,13 +92,6 @@ class NoteController extends Controller
     {
         //
         $note->delete();
-        return redirect()->route('dashboard')->with('message', 'Note deleted successfully');
+        return redirect()->route('display')->with('message', 'Note deleted successfully');
     }
-
-    // public function userNote()
-    // {
-    //     $user = Auth::user();
-    //     $notes = $user->notes()->paginate(10); // Fetch notes for the logged-in user with pagination
-    //     return view('dashboard', compact('notes'));
-    // }
 }
