@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Note;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NoteController extends Controller
 {
@@ -23,7 +24,7 @@ class NoteController extends Controller
     public function create()
     {
         //
-        return view('create');
+        return view('note.create');
     }
 
     /**
@@ -31,29 +32,30 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $validated = $request->validate([
             'note' => 'required|string'
         ]);
 
         $note = new Note();
         $note->notes = $validated['note'];
+        $note->user_id = Auth::id(); // Assign the note to the logged-in user
         $note->save();
-        // return redirect()->route('create');
-        // $notes = Note::paginate(10);
-        // return view('dashboard',compact('notes'));
+
         return redirect()->route('dashboard');
     }
+
 
     /**
      * Display the specified resource.
      */
     public function show()
     {
-        //
-        $notes = Note::paginate(10);
-        return view('dashboard',compact('notes'));
+        // Get the logged-in user's notes
+        $notes = Note::where('user_id', Auth::id())->paginate(10);
+
+        return view('dashboard', compact('notes'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -81,7 +83,7 @@ class NoteController extends Controller
 
         $note->save();
 
-        return redirect()->route('notes.display', $note->id)->with('message','Note updated successfully');
+        return redirect()->route('notes.display', $note->id)->with('message', 'Note updated successfully');
     }
 
     /**
@@ -93,4 +95,11 @@ class NoteController extends Controller
         $note->delete();
         return redirect()->route('dashboard')->with('message', 'Note deleted successfully');
     }
+
+    // public function userNote()
+    // {
+    //     $user = Auth::user();
+    //     $notes = $user->notes()->paginate(10); // Fetch notes for the logged-in user with pagination
+    //     return view('dashboard', compact('notes'));
+    // }
 }

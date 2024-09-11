@@ -26,13 +26,9 @@ Route::get('/note/{id}', [NoteController::class, 'display'])->name('notes.displa
 
 Route::get('/notes/{note}',[NoteController::class, 'update'])->name('notes.update');
 
-// Route::get('/edit', function (){
-//     return view('note.edit');
-// })->name('note.edit');
-
 Route::get('/note/{id}/edit', [NoteController::class, 'edit'])->name('note.edit');
 
-Route::get('/create',[HomeController::class, 'create'])->name('create');
+Route::get('/create',[NoteController::class, 'create'])->name('create');
 
 Route::post('/notes', [NoteController::class, 'store'])->name('notes.store');
 
